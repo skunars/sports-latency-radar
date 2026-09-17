@@ -8,9 +8,9 @@ It is deliberately different from a match-prediction bot and from ordinary odds 
 
 `SofaScore live event feed` → `event timestamp` → `market feed` → `market update timestamp` → `latency window` → `append-only dataset`
 
-The football event adapter uses the public SofaScore event/incident endpoints. The documented API exposes live match incidents such as goals and cards. citeturn1search1turn1search5
+The football event adapter uses SofaScore event/incident endpoints for live match incidents such as goals and cards.
 
-The market adapter is provider-based. The first adapter supports The Odds API and is intentionally disabled until `ODDS_API_KEY` is supplied. The Odds API exposes live event/odds endpoints and bookmaker-level market data. citeturn0search0turn0search7
+The market adapter is provider-based. The first adapter supports The Odds API and is intentionally disabled until `ODDS_API_KEY` is supplied. The Odds API exposes live event/odds endpoints and bookmaker-level market data.
 
 ## What we measure
 
