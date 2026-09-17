@@ -1,33 +1,40 @@
 # Sports Latency Radar
 
-Detect and measure the time gap between a live sporting event becoming observable and a betting-market update becoming observable.
+This repository measures **event-to-market reaction time** in live sports.
 
-## Goal
+It is deliberately different from a match-prediction bot and from ordinary odds arbitrage.
 
-This project is **not** a match-prediction system and **not** a conventional odds-arbitrage scanner. The first phase is measurement:
+## Current architecture
 
-1. Capture live events from independent sources.
-2. Timestamp when each source first reports the event.
-3. Record bookmaker/market observations and update timestamps when legally and technically available.
-4. Calculate source-to-market latency and stale-market windows.
-5. Paper-track hypothetical opportunities only.
-6. Build a dataset of recurring latency patterns before considering any further automation.
+`SofaScore live event feed` → `event timestamp` → `market feed` → `market update timestamp` → `latency window` → `append-only dataset`
 
-## Safety / operating mode
+The football event adapter uses the public SofaScore event/incident endpoints. The documented API exposes live match incidents such as goals and cards. citeturn1search1turn1search5
 
-The initial system is paper-only. It does not place real bets.
+The market adapter is provider-based. The first adapter supports The Odds API and is intentionally disabled until `ODDS_API_KEY` is supplied. The Odds API exposes live event/odds endpoints and bookmaker-level market data. citeturn0search0turn0search7
 
-## Initial focus
+## What we measure
 
-- Goals
-- Red cards
-- Penalties
-- Second yellow cards
-- Substitutions
-- Late-match and stoppage-time events
-- Source disagreement and timestamp quality
-- Market suspension/update timing
+- Event observation time
+- Market observation time
+- Event type
+- Market/bookmaker source
+- Measured latency in milliseconds
+- Repeated latency patterns
+- Stale/reaction windows
 
-## Repository separation
+## Important limitation
 
-This repository is intentionally separate from the existing sports prediction and Telegram paper-tracking systems.
+A feed timestamp is **not automatically the same thing as a bookmaker's acceptance timestamp**. The first phase therefore measures observable feed-to-market delay. Only after repeated data proves a stable pattern do we investigate execution/acceptance behavior.
+
+## Operating mode
+
+Paper / measurement only. No real bets are placed by this repository.
+
+## Start
+
+```bash
+pip install -r requirements.txt
+python run_radar.py
+```
+
+Set `ODDS_API_KEY` to enable the market adapter. Without it, the event side can still be developed and tested.
